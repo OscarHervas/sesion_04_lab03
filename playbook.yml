@@ -1,0 +1,27 @@
+---
+- name: "Laboratorio de facts"
+  hosts: nodo1
+  tasks:
+    - name: "Imprimer todos los facts"
+      debug:
+        var: ansible_facts
+
+    - name: "Crear el fichero datos_nombre_nodo"
+      file:
+        path: /tmp/datos_nombre_nodo.txt
+        state: touch
+        mode: 0655
+
+    - name: "Inserción de datos en el fichero"
+      lineinfile:
+        path: /tmp/datos_nombre_nodo.txt
+        line: "El nodo {{ ansible_facts['hostname'] }} tiene IP {{ ansible_facts['default_ipv4']['address'] }}"
+        create: yes
+
+    - name: "Dispositivo de almacenamiento"
+      lineinfile:
+        path: /tmp/datos_nombre_nodo.txt
+        line: "disco {{ ansible.facts['device']['sda']['size'] }}"
+      
+      
+
